@@ -1,32 +1,25 @@
-function userInput(){
+
     const taskInput= document.getElementById('taskInput');
     const addTaskButton= document.getElementById('addTaskButton');
     let tasklist =document.getElementById('taskList');
 
 
 
-}
 
-    let taskArray = getTasksFromLoalStorage();
-    function getTasksFromLoalStorage() {
-        return Json.parse(localStorage.getItem('tasks')) || [];
+    let taskArray = getTasksFromLocalStorage();
+    function getTasksFromLocalStorage() {
+        return JSON.parse(localStorage.getItem('tasks')) || [];
     }
     function updateTasksInLocalStorage(){
-        localStorage.sdetItem('tasks' , Json.stringify(taskArray));
+        localStorage.setItem('tasks' ,JSON.stringify(taskArray));
     }
-    function creatTask(taskText) {
-        return {text:taskText, completed:false };
-    }
-
-    const removeButton = document.creatTask("buttom");
-
-    removeButton.classList.add("removeButton");
     
-    removeButton.addEventListener ("click", function(){
-        deleteTask(taskObj);
-        renderTasks();
-    });
      
+    function deleteTask(index) {
+        taskArray.splice(index, 1);
+        updateTasksInLocalStorage();
+    }
+
     function createTaskElement(taskObj) {
         const taskItem = document.createElement("li");
         taskItem.classList.add("taskItem");
@@ -60,4 +53,12 @@ function userInput(){
       
         return taskItem;
       }
-      
+
+      function renderTasks(){
+        taskItem.innerHTML = "";
+        for (let i=0; i<taskArray.length; i++){
+          const taskTextElement= createTaskElement(taskArray[i]);
+          taskItem.appendChild(taskTextElement); 
+        }
+
+      }
