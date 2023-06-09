@@ -1,9 +1,11 @@
 
     const taskInput= document.getElementById('taskInput');
     const addTaskButton= document.getElementById('addTaskButton');
-    let tasklist =document.getElementById('taskList');
+    let taskList =document.getElementById('taskList');
 
-
+  function createTask (taskText) {
+  return {text :taskText, completed:false} 
+  }
 
 
     let taskArray = getTasksFromLocalStorage();
@@ -18,6 +20,7 @@
     function deleteTask(index) {
         taskArray.splice(index, 1);
         updateTasksInLocalStorage();
+        renderTasks();
     }
 
     function createTaskElement(taskObj) {
@@ -55,10 +58,22 @@
       }
 
       function renderTasks(){
-        taskItem.innerHTML = "";
+        taskList.innerHTML = "";
         for (let i=0; i<taskArray.length; i++){
           const taskTextElement= createTaskElement(taskArray[i]);
-          taskItem.appendChild(taskTextElement); 
+          taskList.appendChild(taskTextElement); 
         }
-
       }
+        addTaskButton.addEventListener("click", function(){
+          const taskText = taskInput.value;
+          if (taskText === ""){ return}
+          const newTask = createTask(taskText);
+          taskArray.push(newTask);
+          updateTasksInLocalStorage();
+          taskInput.value="";
+
+          renderTasks();
+
+        });
+      renderTasks();
+      
